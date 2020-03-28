@@ -9,7 +9,7 @@ const answersSchema = new Schema({
     'tweet_text': String,
     'text_type': String, // tweet or facebook
     'ans':{
-        'contact_name':[String],
+        // 'contact_name':[String],
         'contact_address': [String], //ที่อยู่
         'organize_name':[String], //หน่วยงานที่ขอรับบริจาค
         'purpose_message':String, //จุดประสงค์ของข้อความ 'ร้องขอความช่วยเหลือ' หรือ 'เสนอความช่วยเหลือ'
