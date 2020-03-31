@@ -8,6 +8,9 @@ Answers = require('../models/answers.js')
 User = require('../models/user.js')
 const randomInt = require('random-int');
 
+
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -254,6 +257,59 @@ router.get('/nextTweet', function(req, res, next) {
 //       console.log("success");
 //   })
 // });
+
+router.get('/textGenerate', function(req, res, next) {
+
+// ---- function -------
+  var generateTextTag  =  function(originalText,ans){
+    let originalText_length = originalText.length
+
+    let textArray = originalText.split('')
+
+    ans.contact_address.forEach(function (item) {
+      if(item.offet_start<originalText_length && item.offet_end<originalText_length  ){
+        textArray[item.offet_start] = '<contact_address>' + textArray[item.offet_start];
+        textArray[item.offet_end] = '</contact_address>' + textArray[item.offet_end];
+
+      }
+    })
+    ans.items.forEach(function (item) {
+      if(item.offet_start<originalText_length && item.offet_end<originalText_length  ){
+        textArray[item.offet_start] = '<itmes>' + textArray[item.offet_start];
+        textArray[item.offet_end] = '</itmes>' + textArray[item.offet_end];
+
+      }
+    })
+    
+    
+    return textArray
+  }
+
+  // run
+  var originalText = "Hello world"
+  var ans = {
+      contact_address:[
+        {
+          offet_start:0,
+          offet_end:5
+        }
+        
+      ],
+      items:[
+        {
+          offet_start:6,
+          offet_end:11
+        }
+      ]
+    } 
+  let returnText =  generateTextTag(originalText,ans)
+  let text_return = returnText.join('')
+  console.log(text_return)
+  res.send(text_return)
+
+  
+
+});
 
 
 router.post('/submitAndNext', async (req, res) => {
