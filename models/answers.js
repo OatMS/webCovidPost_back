@@ -15,15 +15,15 @@ const answersSchema = new Schema({
         'contact_address': [
           {
             'text': String,
-            'start_offset':Number,
-            'end_offset':Number
+            'start_position':Number,
+            'end_position':Number
           }
         ], //ที่อยู่
         'organize_name':[
           {
             'text': String,
-            'start_offset':Number,
-            'end_offert':Number
+            'start_position':Number,
+            'end_position':Number
           }
         ], //หน่วยงานที่ขอรับบริจาค
         'purpose_message':String, //จุดประสงค์ของข้อความ 'ร้องขอความช่วยเหลือ' หรือ 'เสนอความช่วยเหลือ'
@@ -31,8 +31,8 @@ const answersSchema = new Schema({
         'items':[
           {
             'text': String,
-            'start_offset':Number,
-            'end_offert':Number,
+            'start_position':Number,
+            'end_position':Number,
             'number_request': Number
           }
         ] //สิ่งของที่ร้อขอ หรือเสนอ
