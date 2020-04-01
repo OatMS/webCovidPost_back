@@ -111,7 +111,7 @@ router.post('/register', async function(req, res, next) {
     'email': data.user.email,
     'password':data.user.password,
     'picture_url':"",
-    'login_via': "common",
+    'login_via': data.user.login_via,
     'user_score': 0,
     'lasted_login' : moment().format('LLLL')
   } 
@@ -151,7 +151,7 @@ var data = req.body
 });
 
 router.get('/topScore', async function(req, res, next) {
-  User.find({})
+  User.find({login_via:{$ne:'guest'}})
            .limit(5)
            .skip(0)
            .sort({user_score:-1}) // this is used to sort
