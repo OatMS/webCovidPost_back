@@ -20,6 +20,31 @@ router.get('/helloworld', function(req, res, next) {
   res.send('helloworld');
 });
 
+router.get('/getAllAnswers', function(req, res, next) {
+  let key = req.query.key
+  if(key !== '793033db97268fc9ceebde269797e54b'){
+    res.send({status:"400",Message:"Secure key not match."})
+  }else{
+    Answers.find({}).sort({_id:-1})
+    .exec( function(err, result) {
+      if (!err) {
+        
+        res.send({status:"Success",data:result})
+        // throw err
+      }
+      else{
+        res.send({status:"500 Error",Message:"Backend Error"})
+      }
+      
+    })
+
+  }
+
+
+  
+
+  // res.send('helloworld');
+});
 
 router.post('/login',async function(req, res, next){
   var data = req.body
