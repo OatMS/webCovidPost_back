@@ -6,6 +6,9 @@ var moment = require('moment')
 CovidPost = require('../models/tweets.js')
 Answers = require('../models/answers.js')
 User = require('../models/user.js')
+Dictionary = require('../models/dictionary.js')
+Items = require('../models/items.js')
+
 const randomInt = require('random-int');
 
 
@@ -383,22 +386,76 @@ router.post('/submitAndNext', async (req, res) => {
 });
 
 
-// router.post('/editAnswer', async (req, res) => {
-//   try{
-//     var data = req.body
-//     data.data.ans_datetime = moment().format('LLLL')
-//     console.log(data.tweet_id);
-//     const doc = await Person.findOne({ _id :data.tweet_id});
+router.get('/getWordSuggest', async function(req, res, next) {
+  // var data = req.body
 
-//     doc.overwrite(data)
-//     await doc.save()
+  var return_data = {}
+  // var ran = randomInt(1,443)
 
-//   }catch(err){
-//     console.log(err);
-//   }
+  await Dictionary.find({word_type:'โรงพยาบาล'}, function(err, result) {
+    if (err) throw err
+    else{
+      let temp =  []
+      result.forEach(item =>{
+        temp.push(item.word)
+      })
+      temp.sort((a, b) => b.length - a.length)
+      return_data.hospital_name = temp
+    }
 
-344
-// })
+    
+    // res.send(result)
+  })
+
+  await Items.find({}, function(err, result) {
+    if (err) res.send({status:"500 Error", err:err})
+    else{
+      let temp =  []
+      result.forEach(item =>{
+        temp.push(item.word)
+      })
+      temp.sort((a, b) => b.length - a.length)
+      return_data.items_name = temp
+      res.send({status:"success",data:return_data})
+    }
+    
+  })
+
+});
+
+
+
+router.get('/getAllHospitalName', function(req, res, next) {
+  // var data = req.body
+
+  // var ran = randomInt(1,443)
+
+  Dictionary.find({word_type:'โรงพยาบาล'}, function(err, result) {
+    if (err) throw err
+    res.send(result)
+  })
+
+});
+
+
+router.get('/getAllItemsName', function(req, res, next) {
+
+  Items.find({}, function(err, result) {
+    if (err) res.send({status:"500 Error", err:err})
+    else{
+      let temp =  []
+      result.forEach(item =>{
+        temp.push(item.word)
+      })
+      temp.sort((a, b) => b.length - a.length)
+      res.send({status:"success",data:temp})
+    }
+    
+  })
+
+});
+
+
 
 
 
