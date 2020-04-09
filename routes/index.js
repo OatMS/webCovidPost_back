@@ -8,6 +8,7 @@ Answers = require('../models/answers.js')
 User = require('../models/user.js')
 Dictionary = require('../models/dictionary.js')
 Items = require('../models/items.js')
+Apilog = require('../models/apilog.js')
 
 const randomInt = require('random-int');
 
@@ -23,24 +24,51 @@ router.get('/helloworld', function(req, res, next) {
   res.send('helloworld');
 });
 
-router.get('/getAllAnswers', function(req, res, next) {
+router.get('/getAllAnswers', async function(req, res, next) {
   let key = req.query.key
-  if(key !== '793033db97268fc9ceebde269797e54b'){
-    res.send({status:"400",Message:"Secure key not match."})
-  }else{
-    Answers.find({}).sort({_id:-1})
+  let return_data = {}
+  let  canAccess =  false
+  let logdata = []
+  // MD4
+  if (key == '793033db97268fc9ceebde269797e54b'){
+    logdata.key_text = '793033db97268fc9ceebde269797e54b'
+    logdata.key_name = 'TU Team'
+    logdata.createat = moment().format('LLLL')
+    canAccess = true
+  }
+  else  if(key == '430c4d01e2f681603a6c4cfb467096ca'){
+    logdata.key_text = '430c4d01e2f681603a6c4cfb467096ca'
+    logdata.key_name = 'other guy'
+    logdata.createat = moment().format('LLLL')
+    canAccess = true
+
+  }
+
+  if(canAccess){
+
+     Answers.find({}).sort({_id:-1})
     .exec( function(err, result) {
       if (!err) {
-        
+        logdata.response_status = "Success"
+        const apilogModel = new Apilog(logdata, { bufferCommands: false })
+        const result_log =  Apilog.create(apilogModel);
+
         res.send({status:"Success",data:result})
         // throw err
       }
       else{
+        logdata.response_status = "Error"
+        const apilogModel = new Apilog(logdata, { bufferCommands: false })
+        const result_log =  Apilog.create(apilogModel);
+
         res.send({status:"500 Error",Message:"Backend Error"})
       }
       
     })
 
+  }
+  else{
+    res.send({status:"400",Message:"Secure key not match."})
   }
 
 
