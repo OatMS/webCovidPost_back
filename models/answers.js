@@ -14,14 +14,14 @@ const answersSchema = new Schema({
     'ans':{
         'contact_address': [
           {
-            'text': String,
+            'obj_text': String,
             'start_position':Number,
             'end_position':Number
           }
         ], //ที่อยู่
         'organize_name':[
           {
-            'text': String,
+            'obj_text': String,
             'start_position':Number,
             'end_position':Number
           }
@@ -30,7 +30,7 @@ const answersSchema = new Schema({
         // 'requester_or_helper':String, //ชื่อคนขอความช่วยเหลือ หรือ ชื่อคนเสนอตวามช่วยเหลือ
         'items':[
           {
-            'text': String,
+            'obj_text': String,
             'start_position':Number,
             'end_position':Number,
             'number_request': Number

@@ -79,15 +79,15 @@ router.get('/getAllAnswers', async function(req, res, next) {
 
 router.post('/login',async function(req, res, next){
   var data = req.body
-  console.log("line 23")
-  console.log("data")
+  // console.log("line 23")
+  // console.log("data")
 
   if(data.login_via == 'facebook'){
 
     await User.findOne({personalID:data.user.personalID}).then(function(result,err){
-      console.log(result)
+      // console.log(result)
       if(!err){
-        console.log(result)
+        // console.log(result)
         if(result!=undefined){
           result.password  =  ""
           res.send({status :"success", data:result})
@@ -134,7 +134,7 @@ router.post('/login',async function(req, res, next){
     })
   }
 
-  console.log(data);
+  // console.log(data);
 
 });
 
@@ -143,8 +143,8 @@ router.post('/getUserScore',async function(req, res, next){
   // console.log("getUserScore req data:")
   // console.log(data)
     User.findOne({_id:data._id},function(err, result){
-        console.log("getUserScore result data:")
-  console.log(result)
+  //       console.log("getUserScore result data:")
+  // console.log(result)
       if(!err){
         if(result != undefined){
           res.send({status:"success",data:{user_score:result.user_score}})
@@ -160,7 +160,7 @@ router.post('/getUserScore',async function(req, res, next){
 });
 router.post('/register', async function(req, res, next) {
   var data = req.body
-  console.log(data)
+  // console.log(data)
   let user =  {
     'personalID':"",
     'name': data.user.name,
@@ -192,7 +192,7 @@ var data = req.body
 
   User.find({email:data.email}).exec(function(error,result){
     if(!error){
-      console.log(result)
+      // console.log(result)
       if(result.length==0){
         res.send({status:"can use this email"});
       }else{
@@ -216,7 +216,7 @@ router.get('/topScore', async function(req, res, next) {
               // console.log(result);
               res.send({status:"success",data:result});
             } else{
-              console.log(error);
+              // console.log(error);
             }
         });
 });
@@ -232,7 +232,7 @@ router.post('/getAnswer', async function(req, res, next) {
     if (err) res.send({ status: "Error key '_id'" })
     if(result!== null){
       // return_value.status = "success"
-      console.log(result);
+      // console.log(result);
       return_value.answer = result.ans
       answer = result
       isHasAnswer = true
@@ -248,7 +248,7 @@ router.post('/getAnswer', async function(req, res, next) {
       CovidPost.findOne({_id:answer.tweet_id}, function(err, result1) {
       if (err) throw err
       return_value.tweet = result1
-      console.log(result1);
+      // console.log(result1);
       res.send({ status: "success",  result: return_value })
     })
   }
@@ -263,8 +263,8 @@ router.post('/getAnswer', async function(req, res, next) {
 router.post('/editAnswer', async function(req, res, next) {
 
   var data = req.body
-  console.log("Edit data in _id:"+data._id);
-  console.log(data.ans);
+  // console.log("Edit data in _id:"+data._id);
+  // console.log(data.ans);
   data.lasted_update = moment().format('LLLL')
   var now_moment = moment().format('LLLL')
   
@@ -360,7 +360,7 @@ router.get('/textGenerate', function(req, res, next) {
     } 
   let returnText =  generateTextTag(originalText,ans)
   let text_return = returnText.join('')
-  console.log(text_return)
+  // console.log(text_return)
   res.send(text_return)
 
   
@@ -375,8 +375,8 @@ router.post('/submitAndNext', async (req, res) => {
     var now_moment =  moment().format('LLLL')
     data.ans_datetime = now_moment
     data.ans_last_update = now_moment
-    console.log("create answer");
-    console.log(data);
+    // console.log("create answer");
+    // console.log(data);
     // res.status(200).json({ success: true, type: typeof data, result: data })
     const ans = new Answers(data, { bufferCommands: false })
     // ans.save(function (err, obj) {
@@ -386,27 +386,27 @@ router.post('/submitAndNext', async (req, res) => {
      try {
        const result = await Answers.create(ans);
        // const result = await ans.save();
-       console.log("result answer is:")
-       console.log(result);  // this will be the new created ObjectId
+      //  console.log("result answer is:")
+      //  console.log(result);  // this will be the new created ObjectId
       User.findOneAndUpdate({ _id :data.ans_from_account_id}, { $inc : {user_score : data.score},bufferCommands: false },function(err, response) {
            // do something
            if (err) {
-             console.log('err')
+            //  console.log('err')
            }
-           console.log('user id:'+data.ans_from_account_id)
-           console.log('data score: '+data.score)
-           console.log('response of update user: ')
-           console.log(response);
+          //  console.log('user id:'+data.ans_from_account_id)
+          //  console.log('data score: '+data.score)
+          //  console.log('response of update user: ')
+          //  console.log(response);
       })
 
 
        res.status(200).json({ success: true,  result: result })
     } catch(err) {
-      console.log(err)
+      // console.log(err)
     }
 
   }catch(err){
-    console.log(err);
+    // console.log(err);
     res.status(500).json({ success: false, msg: err });
   }
 
@@ -468,7 +468,7 @@ router.get('/getAllHospitalName', function(req, res, next) {
 router.get('/answerCount', function(req, res, next) {
   Answers.countDocuments({}, function (err, count) {
     res.send({status:"success", answer_count:count})
-    console.log('there are %d jungle adventures', count);
+    // console.log('there are %d jungle adventures', count);
   });
 
 });
@@ -490,9 +490,6 @@ router.get('/getAllItemsName', function(req, res, next) {
   })
 
 });
-
-
-
 
 
 
