@@ -18,8 +18,8 @@ const covidPostSchema = new Schema({
     'index': Number,
     'post_text': String,
     'from_social': String,
-    'Ssub_post_from': String,
-    'post_date' : String
+    'post_date' : String,
+    'author':  String
 }, {
   collection: 'covid_social_post'
 })

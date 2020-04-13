@@ -296,7 +296,7 @@ router.post('/editAnswer', async function(req, res, next) {
 router.get('/nextTweet', function(req, res, next) {
   // var data = req.body
 
-  var ran = randomInt(1,443)
+  var ran = randomInt(1,6461)
 
   CovidPost.findOne({index:ran}, function(err, result) {
     if (err) throw err
@@ -462,6 +462,14 @@ router.get('/getAllHospitalName', function(req, res, next) {
     if (err) throw err
     res.send(result)
   })
+
+});
+
+router.get('/answerCount', function(req, res, next) {
+  Answers.countDocuments({}, function (err, count) {
+    res.send({status:"success", answer_count:count})
+    console.log('there are %d jungle adventures', count);
+  });
 
 });
 
