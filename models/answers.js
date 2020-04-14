@@ -16,14 +16,16 @@ const answersSchema = new Schema({
           {
             'obj_text': String,
             'start_position':Number,
-            'end_position':Number
+            'end_position':Number,
+            'extracted_by':String
           }
         ], //ที่อยู่
         'organize_name':[
           {
             'obj_text': String,
             'start_position':Number,
-            'end_position':Number
+            'end_position':Number,
+            'extracted_by':String
           }
         ], //หน่วยงานที่ขอรับบริจาค
         'purpose_message':String, //จุดประสงค์ของข้อความ 'ร้องขอความช่วยเหลือ' หรือ 'เสนอความช่วยเหลือ'
@@ -33,7 +35,8 @@ const answersSchema = new Schema({
             'obj_text': String,
             'start_position':Number,
             'end_position':Number,
-            'number_request': Number
+            'number_request': Number,
+            'extracted_by':String
           }
         ] //สิ่งของที่ร้อขอ หรือเสนอ
       }
