@@ -15,6 +15,7 @@ const answersSchema = new Schema({
         'contact_address': [
           {
             'obj_text': String,
+            'original_text':String,
             'start_position':Number,
             'end_position':Number,
             'extracted_by':String
@@ -23,6 +24,7 @@ const answersSchema = new Schema({
         'organize_name':[
           {
             'obj_text': String,
+            'original_text':String,
             'start_position':Number,
             'end_position':Number,
             'extracted_by':String
