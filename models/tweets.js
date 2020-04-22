@@ -19,7 +19,8 @@ const covidPostSchema = new Schema({
     'post_text': String,
     'from_social': String,
     'post_date' : String,
-    'author':  String
+    'author':  String,
+    'has_answer':Boolean
 }, {
   collection: 'covid_social_post'
 })

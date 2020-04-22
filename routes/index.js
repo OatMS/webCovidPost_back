@@ -296,12 +296,12 @@ router.post('/editAnswer', async function(req, res, next) {
 router.get('/nextTweet', function(req, res, next) {
   // var data = req.body
 
-  var ran = randomInt(1,6461)
+  // var ran = randomInt(1,6461)
 
-  CovidPost.findOne({index:ran}, function(err, result) {
+  CovidPost.findOne({has_answer:false}, function(err, result) {
     if (err) throw err
     res.send(result)
-  })
+  }).sort({_id:-1})
 
 });
 
