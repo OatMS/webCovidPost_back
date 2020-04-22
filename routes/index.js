@@ -293,26 +293,15 @@ router.post('/editAnswer', async function(req, res, next) {
 
 });
 
-router.get('/nextTweet', function(req, res, next) {
+router.get('/nextTweet', async function(req, res, next) {
   // var data = req.body
 
   // var ran = randomInt(1,6461)
 
-  CovidPost.findOne({has_answer:false}, function(err, result) {
-    if (err) throw err
-    res.send(result)
-  }).sort({_id:-1})
-
+  let doc = await CovidPost.findOneAndUpdate({has_answer:false,in_progress:false},{$set:{in_progress:true},new: true}).sort({_id:-1})
+  res.send(doc)
 });
 
-// router.get('/addScore', async (req, res) => {
-//   User.findOneAndUpdate({_id :'5e5cc26a5cad9801efb5da80'}, {$inc : {user_score: 20}},{returnNewDocument: true},function(err, response) {
-//       // do something
-//       if (err) console.log(err);
-//       res.status(200).json({ success: true,  result: response })
-//       console.log("success");
-//   })
-// });
 
 router.get('/textGenerate', function(req, res, next) {
 
@@ -379,12 +368,14 @@ router.post('/submitAndNext', async (req, res) => {
     // console.log(data);
     // res.status(200).json({ success: true, type: typeof data, result: data })
     const ans = new Answers(data, { bufferCommands: false })
+
     // ans.save(function (err, obj) {
     //    if (err) return console.error(err);
     //    res.status(200).json({ success: true,  result: obj })
     //  });
      try {
        const result = await Answers.create(ans);
+       CovidPost.findOneAndUpdate({ _id :data.post_id},{$set:{has_answer:true,in_progress:false},bufferCommands: false})
        // const result = await ans.save();
       //  console.log("result answer is:")
       //  console.log(result);  // this will be the new created ObjectId
